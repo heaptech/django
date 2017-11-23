@@ -29,11 +29,9 @@ site = admin.AdminSite()
 
 class TestAdminOrdering(TestCase):
     """
-    Let's make sure that ModelAdmin.get_queryset uses the ordering we define
-    in ModelAdmin rather that ordering defined in the model's inner Meta
-    class.
+    ModelAdmin.get_queryset uses the ordering we define in ModelAdmin
+    rather that ordering defined in the model's inner Metaclass.
     """
-
     def setUp(self):
         self.request_factory = RequestFactory()
         Band.objects.bulk_create([
@@ -44,7 +42,7 @@ class TestAdminOrdering(TestCase):
 
     def test_default_ordering(self):
         """
-        The default ordering should be by name, as specified in the inner Meta
+        The default ordering is by name, as specified in the inner Meta
         class.
         """
         ma = ModelAdmin(Band, site)
@@ -53,7 +51,7 @@ class TestAdminOrdering(TestCase):
 
     def test_specified_ordering(self):
         """
-        Let's use a custom ModelAdmin that changes the ordering, and make sure
+        Use a custom ModelAdmin that changes the ordering, and make sure
         it actually changes.
         """
         class BandAdmin(ModelAdmin):
@@ -64,7 +62,7 @@ class TestAdminOrdering(TestCase):
 
     def test_dynamic_ordering(self):
         """
-        Let's use a custom ModelAdmin that changes the ordering dynamically.
+        Use a custom ModelAdmin that changes the ordering dynamically.
         """
         super_user = User.objects.create(username='admin', is_superuser=True)
         other_user = User.objects.create(username='other')
@@ -80,8 +78,8 @@ class TestAdminOrdering(TestCase):
 
 class TestInlineModelAdminOrdering(TestCase):
     """
-    Let's make sure that InlineModelAdmin.get_queryset uses the ordering we
-    define in InlineModelAdmin.
+    InlineModelAdmin.get_queryset uses the ordering we define in
+    InlineModelAdmin.
     """
 
     def setUp(self):
@@ -94,7 +92,7 @@ class TestInlineModelAdminOrdering(TestCase):
 
     def test_default_ordering(self):
         """
-        The default ordering should be by name, as specified in the inner Meta
+        The default ordering is by name, as specified in the inner Meta
         class.
         """
         inline = SongInlineDefaultOrdering(self.band, site)
@@ -103,7 +101,7 @@ class TestInlineModelAdminOrdering(TestCase):
 
     def test_specified_ordering(self):
         """
-        Let's check with ordering set to something different than the default.
+        Ordering set to something different than the default, works.
         """
         inline = SongInlineNewOrdering(self.band, site)
         names = [s.name for s in inline.get_queryset(request)]
@@ -154,7 +152,7 @@ class TestRelatedFieldsAdminOrdering(TestCase):
         self.check_ordering_of_field_choices([self.b1, self.b2])
 
     def test_custom_queryset_still_wins(self):
-        """Custom queryset has still precedence (#21405)"""
+        """Custom queryset has still precedence (#21405)."""
         class SongAdmin(admin.ModelAdmin):
             # Exclude one of the two Bands from the querysets
             def formfield_for_foreignkey(self, db_field, request, **kwargs):

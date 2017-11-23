@@ -96,9 +96,7 @@ class TestUtils(AdminDocsTestCase):
         self.assertIn('<h3>Header</h3>', output)
 
     def test_parse_rst(self):
-        """
-        parse_rst() should use `cmsreference` as the default role.
-        """
+        """parse_rst() uses `cmsreference` as the default role."""
         markup = '<p><a class="reference external" href="/admindocs/%s">title</a></p>\n'
         self.assertEqual(parse_rst('`title`', 'model'), markup % 'models/title/')
         self.assertEqual(parse_rst('`title`', 'view'), markup % 'views/title/')
@@ -108,9 +106,8 @@ class TestUtils(AdminDocsTestCase):
 
     def test_publish_parts(self):
         """
-        Django shouldn't break the default role for interpreted text
-        when ``publish_parts`` is used directly, by setting it to
-        ``cmsreference`` (#6681).
+        Django doesn't break the default role for interpreted text when
+        ``publish_parts`` is used directly, by setting it to ``cmsreference`` (#6681).
         """
         import docutils
         self.assertNotEqual(docutils.parsers.rst.roles.DEFAULT_INTERPRETED_ROLE, 'cmsreference')

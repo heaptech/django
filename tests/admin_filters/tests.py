@@ -291,9 +291,7 @@ class ListFiltersTests(TestCase):
         self.jack = Employee.objects.create(name='Jack Red', department=self.design)
 
     def test_choicesfieldlistfilter_has_none_choice(self):
-        """
-        The last choice is for the None value.
-        """
+        """The last choice is for the None value."""
         class BookmarkChoicesAdmin(ModelAdmin):
             list_display = ['none_or_null']
             list_filter = ['none_or_null']
@@ -475,6 +473,9 @@ class ListFiltersTests(TestCase):
         self.assertEqual(choices[2]['query_string'], '?year=2002')
 
     def test_allvaluesfieldlistfilter_custom_qs(self):
+        """
+        Correct filters are returned with custom querysets.
+        """
         # Make sure that correct filters are returned with custom querysets
         modeladmin = BookAdminWithCustomQueryset(self.alfred, Book, site)
         request = self.request_factory.get('/')
@@ -740,8 +741,8 @@ class ListFiltersTests(TestCase):
 
     def test_fieldlistfilter_underscorelookup_tuple(self):
         """
-        Ensure ('fieldpath', ClassName ) lookups pass lookup_allowed checks
-        when fieldpath contains double underscore in value (#19182).
+        ('fieldpath', ClassName ) lookups pass lookup_allowed checks when
+        fieldpath contains double underscore in value (#19182).
         """
         modeladmin = BookAdminWithUnderscoreLookupAndTuple(Book, site)
         request = self.request_factory.get('/')
@@ -854,9 +855,7 @@ class ListFiltersTests(TestCase):
         self.assertEqual(choice['query_string'], '?author__id__exact=%s&publication-decade=the+00s' % self.alfred.pk)
 
     def test_listfilter_without_title(self):
-        """
-        Any filter must define a title.
-        """
+        """Any filter defines a title."""
         modeladmin = DecadeFilterBookAdminWithoutTitle(Book, site)
         request = self.request_factory.get('/', {})
         msg = "The list filter 'DecadeListFilterWithoutTitle' does not specify a 'title'."
@@ -864,9 +863,7 @@ class ListFiltersTests(TestCase):
             modeladmin.get_changelist_instance(request)
 
     def test_simplelistfilter_without_parameter(self):
-        """
-        Any SimpleListFilter must define a parameter_name.
-        """
+        """Any SimpleListFilter defines a parameter_name."""
         modeladmin = DecadeFilterBookAdminWithoutParameter(Book, site)
         request = self.request_factory.get('/', {})
         msg = "The list filter 'DecadeListFilterWithoutParameter' does not specify a 'parameter_name'."
@@ -1069,7 +1066,7 @@ class ListFiltersTests(TestCase):
 
     def test_lookup_with_dynamic_value(self):
         """
-        Ensure SimpleListFilter can access self.value() inside the lookup.
+        SimpleListFilter can access self.value() inside the lookup.
         """
         modeladmin = DepartmentFilterDynamicValueBookAdmin(Book, site)
 

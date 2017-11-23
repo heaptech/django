@@ -203,7 +203,7 @@ class SystemChecksTestCase(SimpleTestCase):
 
     def test_custom_modelforms_with_fields_fieldsets(self):
         """
-        # Regression test for #8027: custom ModelForms with fields/fieldsets
+        Custom ModelForms with fields/fieldsets (#8027).
         """
         errors = ValidFields(Song, AdminSite()).check()
         self.assertEqual(errors, [])
@@ -218,7 +218,7 @@ class SystemChecksTestCase(SimpleTestCase):
 
     def test_fieldsets_fields_non_tuple(self):
         """
-        The first fieldset's fields must be a list/tuple.
+        The first group of fieldset's fields is a list/tuple.
         """
         class NotATupleAdmin(admin.ModelAdmin):
             list_display = ["pk", "title"]
@@ -241,7 +241,7 @@ class SystemChecksTestCase(SimpleTestCase):
 
     def test_nonfirst_fieldset(self):
         """
-        The second fieldset's fields must be a list/tuple.
+        The second group fieldset's fields is a list/tuple.
         """
         class NotATupleAdmin(admin.ModelAdmin):
             fieldsets = [
@@ -265,7 +265,7 @@ class SystemChecksTestCase(SimpleTestCase):
 
     def test_exclude_values(self):
         """
-        Tests for basic system checks of 'exclude' option values (#12689)
+        The value of 'exclude' is always a list or tuple (#12689).
         """
         class ExcludedFields1(admin.ModelAdmin):
             exclude = 'foo'
@@ -315,8 +315,8 @@ class SystemChecksTestCase(SimpleTestCase):
 
     def test_exclude_inline_model_admin(self):
         """
-        Regression test for #9932 - exclude in InlineModelAdmin should not
-        contain the ForeignKey field used in ModelAdmin.model
+        'exclude' in InlineModelAdmin does not contain the ForeignKey
+        field used in ModelAdmin.model (#9932).
         """
         class SongInline(admin.StackedInline):
             model = Song
@@ -339,8 +339,7 @@ class SystemChecksTestCase(SimpleTestCase):
 
     def test_valid_generic_inline_model_admin(self):
         """
-        Regression test for #22034 - check that generic inlines don't look for
-        normal ForeignKey relations.
+        The generic inlines don't look for ForeignKey relations (#22034).
         """
         class InfluenceInline(GenericStackedInline):
             model = Influence
@@ -479,9 +478,9 @@ class SystemChecksTestCase(SimpleTestCase):
 
     def test_fk_exclusion(self):
         """
-        Regression test for #11709 - when testing for fk excluding (when exclude is
-        given) make sure fk_name is honored or things blow up when there is more
-        than one fk to the parent model.
+        When testing for fk excluding (when exclude is given), fk_name is
+        honored and things blow up when there is more than one fk to the
+        parent model (#11709).
         """
         class TwoAlbumFKAndAnEInline(admin.TabularInline):
             model = TwoAlbumFKAndAnE
@@ -632,9 +631,9 @@ class SystemChecksTestCase(SimpleTestCase):
 
     def test_graceful_m2m_fail(self):
         """
-        Regression test for #12203/#12237 - Fail more gracefully when a M2M field that
-        specifies the 'through' option is included in the 'fields' or the 'fieldsets'
-        ModelAdmin options.
+        Fails gracefully when a M2M field that specifies the 'through' option
+        is included in the 'fields' or the 'fieldsets' ModelAdmin
+        options (#12203 #12237).
         """
         class BookAdmin(admin.ModelAdmin):
             fields = ['authors']
@@ -686,9 +685,8 @@ class SystemChecksTestCase(SimpleTestCase):
 
     def test_explicit_through_override(self):
         """
-        Regression test for #12209 -- If the explicitly provided through model
-        is specified as a string, the admin should still be able use
-        Model.m2m_field.through
+        If the explicitly provided through model is specified as a string,
+        the admin would still be able to use Model.m2m_field.through (#12209).
         """
         class AuthorsInline(admin.TabularInline):
             model = Book.authors.through
@@ -700,10 +698,7 @@ class SystemChecksTestCase(SimpleTestCase):
         self.assertEqual(errors, [])
 
     def test_non_model_fields(self):
-        """
-        Regression for ensuring ModelAdmin.fields can contain non-model fields
-        that broke with r11737
-        """
+        """ModelAdmin.fields can contain non-model fields."""
         class SongForm(forms.ModelForm):
             extra_data = forms.CharField()
 
@@ -716,8 +711,8 @@ class SystemChecksTestCase(SimpleTestCase):
 
     def test_non_model_first_field(self):
         """
-        Regression for ensuring ModelAdmin.field can handle first elem being a
-        non-model field (test fix for UnboundLocalError introduced with r16225).
+        ModelAdmin.field handles first elem being a non-model field
+        (UnboundLocalError introduced with r16225).
         """
         class SongForm(forms.ModelForm):
             extra_data = forms.CharField()
@@ -767,8 +762,8 @@ class SystemChecksTestCase(SimpleTestCase):
 
     def test_list_filter_works_on_through_field_even_when_apps_not_ready(self):
         """
-        Ensure list_filter can access reverse fields even when the app registry
-        is not ready; refs #24146.
+        list_filter accesses reverse fields even when the app registry
+        is not ready (#24146).
         """
         class BookAdminWithListFilter(admin.ModelAdmin):
             list_filter = ['authorsbooks__featured']

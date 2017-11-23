@@ -176,7 +176,7 @@ class TestModelDetailView(TestDataMixin, AdminDocsTestCase):
 
     def test_methods_with_arguments(self):
         """
-        Methods that take arguments should also displayed.
+        Methods that take arguments are also displayed.
         """
         self.assertContains(self.response, "<h3>Methods with arguments</h3>")
         self.assertContains(self.response, "<td>rename_company</td>")
@@ -184,21 +184,17 @@ class TestModelDetailView(TestDataMixin, AdminDocsTestCase):
         self.assertContains(self.response, "<td>suffix_company_name</td>")
 
     def test_methods_with_arguments_display_arguments(self):
-        """
-        Methods with arguments should have their arguments displayed.
-        """
+        """Methods with arguments have their arguments displayed."""
         self.assertContains(self.response, "<td>new_name</td>")
 
     def test_methods_with_arguments_display_arguments_default_value(self):
-        """
-        Methods with keyword arguments should have their arguments displayed.
-        """
+        """Methods with keyword arguments have their arguments displayed."""
         self.assertContains(self.response, "<td>suffix=&#39;ltd&#39;</td>")
 
     def test_methods_with_multiple_arguments_display_arguments(self):
         """
-        Methods with multiple arguments should have all their arguments
-        displayed, but omitting 'self'.
+        Methods with multiple arguments have all their arguments displayed,
+        but omitting 'self'.
         """
         self.assertContains(self.response, "<td>baz, rox, *some_args, **some_kwargs</td>")
 
@@ -209,9 +205,7 @@ class TestModelDetailView(TestDataMixin, AdminDocsTestCase):
         self.assertEqual(get_return_data_type(person.get_groups_list.__name__), 'List')
 
     def test_descriptions_render_correctly(self):
-        """
-        The ``description`` field should render correctly for each field type.
-        """
+        """The ``description`` field renders correctly for each field type."""
         # help text in fields
         self.assertContains(self.response, "<td>first name - The person's first name</td>")
         self.assertContains(self.response, "<td>last name - The person's last name</td>")
@@ -264,7 +258,7 @@ class TestModelDetailView(TestDataMixin, AdminDocsTestCase):
 
     def test_model_with_no_backward_relations_render_only_relevant_fields(self):
         """
-        A model with ``related_name`` of `+` shouldn't show backward
+        A model with ``related_name`` of `+` doesn't show backward
         relationship links.
         """
         response = self.client.get(reverse('django-admindocs-models-detail', args=['admin_docs', 'family']))
